@@ -1,4 +1,5 @@
 const express = require('express');
+const authRoutes = require('./routes/auth');
 const productRoutes = require('./routes/products');
 const errorHandler = require('./middlewares/errorHandler');
 
@@ -24,6 +25,7 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
+app.use('/auth', authRoutes);
 app.use('/products', productRoutes);
 
 app.use((req, res) => {

@@ -1,14 +1,16 @@
 const express = require('express');
 const controller = require('../controllers/productController');
+const { requireAuth, requireAdmin } = require('../middlewares/auth');
 
 const router = express.Router();
 
+// 누구나 조회 가능
 router.get('/', controller.list);
 router.get('/:id', controller.get);
 
-// TODO(2단계): 아래 세 개는 관리자만 쓸 수 있게 막는다.
-router.post('/', controller.create);
-router.patch('/:id', controller.update);
-router.delete('/:id', controller.remove);
+// 관리자만 등록·수정·삭제 가능
+router.post('/', requireAuth, requireAdmin, controller.create);
+router.patch('/:id', requireAuth, requireAdmin, controller.update);
+router.delete('/:id', requireAuth, requireAdmin, controller.remove);
 
 module.exports = router;
